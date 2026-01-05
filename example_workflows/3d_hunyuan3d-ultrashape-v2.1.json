@@ -1,0 +1,796 @@
+{
+  "id": "4125c6df-9bca-430d-8e85-7cff9cc592d5",
+  "revision": 0,
+  "last_node_id": 26,
+  "last_link_id": 32,
+  "nodes": [
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [
+        480,
+        -390
+      ],
+      "size": [
+        274.080078125,
+        314
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            21,
+            27
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "orel.jpeg",
+        "image"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "ModelSamplingAuraFlow",
+      "pos": [
+        840,
+        -600
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "ModelSamplingAuraFlow"
+      },
+      "widgets_values": [
+        1
+      ]
+    },
+    {
+      "id": 6,
+      "type": "Hunyuan3Dv2Conditioning",
+      "pos": [
+        900,
+        -370
+      ],
+      "size": [
+        217.82578125,
+        46
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip_vision_output",
+          "type": "CLIP_VISION_OUTPUT",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            5
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "Hunyuan3Dv2Conditioning"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 4,
+      "type": "EmptyLatentHunyuan3Dv2",
+      "pos": [
+        840,
+        -270
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "EmptyLatentHunyuan3Dv2"
+      },
+      "widgets_values": [
+        4096,
+        1
+      ]
+    },
+    {
+      "id": 15,
+      "type": "MarkdownNote",
+      "pos": [
+        40,
+        -640
+      ],
+      "size": [
+        370,
+        240
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "\n## Model links\n\n**checkpoints**\n\n- [hunyuan_3d_v2.1.safetensors](https://huggingface.co/Comfy-Org/hunyuan3D_2.1_repackaged/resolve/main/hunyuan_3d_v2.1.safetensors)\n- [ultrashape_v1.pt](https://huggingface.co/infinith/UltraShape/resolve/main/ultrashape_v1.pt)\n\n\nModel Storage Location\n\n```\n📂 ComfyUI/\n├── 📂 models/\n│   ├── 📂 checkpoints/\n│   │   └── hunyuan_3d_v2.1.safetensors\n│   └── 📂 ultrashape/\n│       └── ultrashape_v1.pt\n```\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 23,
+      "type": "MarkdownNote",
+      "pos": [
+        40,
+        -350
+      ],
+      "size": [
+        370,
+        300
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "\n## UltraShape 1.0 Workflow\n\nThis workflow combines Hunyuan3D-2.1 and UltraShape-1.0 for high-fidelity 3D shape generation:\n\n1. **Hunyuan3D-2.1** generates a coarse 3D mesh from the input image\n2. **UltraShape-1.0** refines the coarse mesh with geometric details\n\n### Required Models:\n- Hunyuan3D-2.1: `hunyuan_3d_v2.1.safetensors`\n- UltraShape: `ultrashape_v1.pt`\n\n### Workflow:\n- Input image → Hunyuan3D (coarse mesh) → UltraShape (refined mesh) → Output\n\n### Parameters:\n- **num_inference_steps**: Number of diffusion steps for refinement\n- **octree_resolution**: Resolution for marching cubes algorithm\n- **seed**: Random seed for reproducible results\n"
+      ],
+      "color": "#3a3",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 7,
+      "type": "KSampler",
+      "pos": [
+        1150,
+        -600
+      ],
+      "size": [
+        270,
+        262
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 19
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 5
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 6
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        30,
+        5,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 1,
+      "type": "ImageOnlyCheckpointLoader",
+      "pos": [
+        450,
+        -600
+      ],
+      "size": [
+        356.0005859375,
+        100
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            20
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "ImageOnlyCheckpointLoader"
+      },
+      "widgets_values": [
+        "hunyuan_3d_v2.1.safetensors"
+      ]
+    },
+    {
+      "id": 22,
+      "type": "SaveGLB",
+      "pos": [
+        2455.2478353286638,
+        -675.2919194924248
+      ],
+      "size": [
+        810,
+        820
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 26
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "SaveGLB",
+        "Resource Folder": "ComfyUI",
+        "Scene Config": {
+          "showGrid": true,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled"
+        },
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "state": {
+            "position": {
+              "x": -11.434071004480133,
+              "y": -0.1153939785150433,
+              "z": 10.32700605988933
+            },
+            "target": {
+              "x": 0,
+              "y": 2.5,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective"
+          }
+        },
+        "Light Config": {
+          "intensity": 3
+        }
+      },
+      "widgets_values": [
+        "mesh/ComfyUI/UltraShape_Refined",
+        ""
+      ]
+    },
+    {
+      "id": 26,
+      "type": "SaveGLB",
+      "pos": [
+        1484.5431084180525,
+        -89.81138578465097
+      ],
+      "size": [
+        810,
+        820
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 32
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "SaveGLB",
+        "Resource Folder": "ComfyUI",
+        "Scene Config": {
+          "showGrid": true,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled"
+        },
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "state": {
+            "position": {
+              "x": -11.114663290222435,
+              "y": 2.5367557416642654,
+              "z": -10.895080308812217
+            },
+            "target": {
+              "x": 0,
+              "y": 2.5,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective"
+          }
+        },
+        "Light Config": {
+          "intensity": 3
+        }
+      },
+      "widgets_values": [
+        "mesh/ComfyUI/UltraShape_Refined",
+        ""
+      ]
+    },
+    {
+      "id": 9,
+      "type": "VoxelToMesh",
+      "pos": [
+        1150,
+        -130
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "voxel",
+          "type": "VOXEL",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MESH",
+          "type": "MESH",
+          "links": [
+            11,
+            32
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "VoxelToMesh"
+      },
+      "widgets_values": [
+        "surface net",
+        0.6
+      ]
+    },
+    {
+      "id": 13,
+      "type": "CLIPVisionEncode",
+      "pos": [
+        840,
+        -500
+      ],
+      "size": [
+        270,
+        80
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip_vision",
+          "type": "CLIP_VISION",
+          "link": 20
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CLIP_VISION_OUTPUT",
+          "type": "CLIP_VISION_OUTPUT",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "CLIPVisionEncode"
+      },
+      "widgets_values": [
+        "none"
+      ]
+    },
+    {
+      "id": 21,
+      "type": "UltraShapeRefineFromHunyuan",
+      "pos": [
+        1850,
+        -600
+      ],
+      "size": [
+        350,
+        266
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ultrashape_model",
+          "type": "ULTRASHAPE_MODEL",
+          "link": 25
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 27
+        },
+        {
+          "name": "hunyuan_mesh",
+          "type": "MESH",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "refined_mesh",
+          "type": "MESH",
+          "links": [
+            26
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UltraShapeRefineFromHunyuan"
+      },
+      "widgets_values": [
+        50,
+        256,
+        42,
+        "fixed",
+        0.95,
+        0.5,
+        false
+      ]
+    },
+    {
+      "id": 20,
+      "type": "LoadUltraShapeModel",
+      "pos": [
+        1503.0941884722918,
+        -732.0187081511007
+      ],
+      "size": [
+        300,
+        60
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "ultrashape_model",
+          "type": "ULTRASHAPE_MODEL",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadUltraShapeModel"
+      },
+      "widgets_values": [
+        "ultrashape_v1.pt"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecodeHunyuan3D",
+      "pos": [
+        1150,
+        -290
+      ],
+      "size": [
+        270,
+        102
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 8
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VOXEL",
+          "type": "VOXEL",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.6.0",
+        "Node name for S&R": "VAEDecodeHunyuan3D"
+      },
+      "widgets_values": [
+        8000,
+        256
+      ]
+    }
+  ],
+  "links": [
+    [
+      5,
+      6,
+      0,
+      7,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      6,
+      6,
+      1,
+      7,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      7,
+      4,
+      0,
+      7,
+      3,
+      "LATENT"
+    ],
+    [
+      8,
+      7,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      10,
+      8,
+      0,
+      9,
+      0,
+      "VOXEL"
+    ],
+    [
+      11,
+      9,
+      0,
+      21,
+      2,
+      "MESH"
+    ],
+    [
+      16,
+      1,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      18,
+      1,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      19,
+      3,
+      0,
+      7,
+      0,
+      "MODEL"
+    ],
+    [
+      20,
+      1,
+      1,
+      13,
+      0,
+      "CLIP_VISION"
+    ],
+    [
+      21,
+      2,
+      0,
+      13,
+      1,
+      "IMAGE"
+    ],
+    [
+      22,
+      13,
+      0,
+      6,
+      0,
+      "CLIP_VISION_OUTPUT"
+    ],
+    [
+      25,
+      20,
+      0,
+      21,
+      0,
+      "ULTRASHAPE_MODEL"
+    ],
+    [
+      26,
+      21,
+      0,
+      22,
+      0,
+      "MESH"
+    ],
+    [
+      27,
+      2,
+      0,
+      21,
+      1,
+      "IMAGE"
+    ],
+    [
+      32,
+      9,
+      0,
+      26,
+      0,
+      "MESH"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9695595555555561,
+      "offset": [
+        260.57918995431197,
+        985.0632504343039
+      ]
+    },
+    "workflowRendererVersion": "LG",
+    "frontendVersion": "1.34.9"
+  },
+  "version": 0.4
+}

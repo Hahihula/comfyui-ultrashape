@@ -1,0 +1,22 @@
+# UltraShape ComfyUI Node Requirements
+# Most dependencies are already installed in the Docker image
+# This is mainly for reference
+
+# Core dependencies (already in Docker)
+# torch>=2.5.0
+# torchvision
+# torchaudio
+# einops
+# omegaconf
+# transformers
+# accelerate
+# diffusers
+# trimesh
+# pymeshlab
+# pytorch3d
+# cubvh
+# flash-attn
+
+# Additional utilities
+Pillow
+numpy

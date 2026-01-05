@@ -1,0 +1,3 @@
+[submodule "ultrashape_repo"]
+	path = ultrashape_repo
+	url = https://github.com/PKU-YuanGroup/UltraShape-1.0.git
